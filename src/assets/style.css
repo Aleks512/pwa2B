@@ -1,0 +1,172 @@
+/* Reset des styles par défaut */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+
+/* Styles Bootstrap */
+/* Global styles */
+
+
+:root {
+  --primary-color: #27b547;
+  --primary3-color: #1AA845;
+  --primary5-color: #00FF7FFF;
+  --customblack-color: #000000;
+--secondary-color: #525151;
+--background-color: white;
+
+--custom-button-bg: #27b547;
+--custom-button-text: #000000;
+--custom-button-hover-bg: #000000;
+--custom-button-hover-text: #00FF7FFF;
+
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'cursive 400';
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    
+  }
+
+  .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show > .nav-link {
+    color: var(--primary-color);
+  }
+  .navbar-dark .navbar-nav .nav-link{
+      color: var(--primary-color) !important}
+  .nav-link{
+    color: var(--primary-color) !important;
+  }
+
+  .navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
+    color: var(--primary5-color);
+  }
+  .dropdown-menu{
+    color:var(--primary-color);
+    background-color:black;
+  }
+  .dropdown-item{
+    color: var(--primary-color);
+  }
+  .dropdown-item:hover{
+    color: black;
+    background-color: var(--primary5-color);
+  }
+  .navbar-toggler-icon{
+    color: var(--primary-color);
+  }
+  .navbar-dark .navbar-toggler{
+    color: var(--primary-color);
+    border-color:var(--primary-color);
+  }
+  
+  .navbar-toggler{
+      color: #0c4128;
+  }
+  .navbar-toggler{
+    color: #0c4128;
+}
+
+/* Default Bootstrap CSS rules */
+.navbar-dark .navbar-toggler-icon {
+  color: #fff;
+}
+  
+  h1, h2 {
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+    font-family: 'Lobster', cursive;
+  }
+  h3 {
+    text-align: center;
+    font-size: 1.5rem !important;
+    font-family: 'Lobster'!important;
+    color:#1AA845 !important;
+  }
+  
+  .btn-custom {
+    background-color: var(--custom-button-bg) !important;
+    color: var(--custom-button-text) !important;
+    border-color: var(--custom-button-bg) !important;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .btn-custom:hover {
+    background-color: var(--custom-button-hover-bg) !important;
+    color: var(--custom-button-hover-text) !important;
+  }
+  
+  #app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .nav-item a {
+    color: chartreuse!important;
+  }
+  
