@@ -1,18 +1,22 @@
 <template>
     <div class="container mt-4">
-      <h2>Détails de la Commande</h2>
-      <div v-if="loading" class="text-center">Chargement...</div>
-      <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-      <div v-if="orderItem" class="card">
-        <img :src="orderItem.product.image" class="card-img-top" alt="Image du produit">
-        <div class="card-body">
-          <h5 class="card-title">{{ orderItem.product.name }}</h5>
-          <p class="card-text">{{ orderItem.product.description }}</p>
-          <p class="card-text"><strong>Prix:</strong> {{ orderItem.product.price }} €</p>
-          <p class="card-text"><strong>Quantité:</strong> {{ orderItem.quantity }}</p>
-          <p class="card-text"><strong>Commentaire:</strong> {{ orderItem.comment }}</p>
-          <p class="card-text"><small>Date ajoutée: {{ formatDate(orderItem.date_added) }}</small></p>
+      <h2>Détail de la commande</h2>
+      <div v-if="order">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ order.product.name }}</h5>
+            <img :src="order.product.image" alt="product image" style="max-width: 100%;" />
+            <p class="card-text">{{ order.product.description }}</p>
+            <p class="card-text">Prix: {{ order.product.price }} €</p>
+            <p class="card-text">Quantité: {{ order.quantity }}</p>
+            <p class="card-text">Commentaire du consultant en chargé: {{ order.comment }}</p>
+            <p class="card-text">Date ajoutée: {{ order.date_added }}</p>
+            
+          </div>
         </div>
+      </div>
+      <div v-else>
+        <p>Chargement...</p>
       </div>
     </div>
   </template>
@@ -23,35 +27,25 @@
   export default {
     data() {
       return {
-        orderItem: null,
-        loading: true,
-        errorMessage: ''
+        order: null,
       };
     },
     async created() {
-      await this.fetchOrderItemDetail();
-    },
-    methods: {
-      async fetchOrderItemDetail() {
-        const orderItemId = this.$route.params.id;
-        try {
-          const response = await getAPI.get(`/customer-orderitem/${orderItemId}/`);
-          this.orderItem = response.data;
-        } catch (error) {
-          console.error('Error fetching order item details:', error);
-          this.errorMessage = 'Erreur lors de la récupération des détails de la commande';
-        } finally {
-          this.loading = false;
-        }
-      },
-      formatDate(date) {
-        return new Date(date).toLocaleString();
+      const orderId = this.$route.params.id;
+      try {
+        const response = await getAPI.get(`/customer-orderitem/${orderId}/`);
+        this.order = response.data;
+        console.log(response.data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération de la commande :', error);
       }
-    }
+    },
   };
   </script>
   
   <style scoped>
-  /* Ajouter des styles supplémentaires si nécessaire */
+  .card {
+    margin-top: 20px;
+  }
   </style>
   

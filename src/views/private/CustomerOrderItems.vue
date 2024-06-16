@@ -1,60 +1,57 @@
 <template>
     <div class="container mt-4">
       <h2>Mes Commandes</h2>
-      <div v-if="loading" class="text-center">Chargement...</div>
-      <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-      <div v-if="orderItems.length > 0" class="list-group">
-        <a 
-          v-for="orderItem in orderItems" 
-          :key="orderItem.id" 
-          :href="`#/orderitem/${orderItem.id}`" 
-          class="list-group-item list-group-item-action"
-        >
-          <div>
-            <h5 class="mb-1">{{ orderItem.product.name }}</h5>
-            <p class="mb-1">Quantité: {{ orderItem.quantity }}</p>
-            <small>Date ajoutée: {{ formatDate(orderItem.date_added) }}</small>
-          </div>
-        </a>
+      <div v-if="orders.length">
+        <ul class="list-group">
+          <li
+            v-for="order in orders"
+            :key="order.id"
+            class="list-group-item"
+            @click="viewOrder(order.id)"
+            style="cursor: pointer;"
+          >
+            {{ order.product.name }} - Quantité: {{ order.quantity }} - Date: {{ formatDate(order.date_added) }}
+          </li>
+        </ul>
       </div>
-      <div v-if="orderItems.length === 0 && !loading" class="text-center">Aucune commande trouvée.</div>
+      <div v-else>
+        <p>Vous n'avez aucune commande.</p>
+      </div>
     </div>
   </template>
   
   <script>
   import getAPI from '@/axios-api';
+  import { format } from 'date-fns';
   
   export default {
     data() {
       return {
-        orderItems: [],
-        loading: true,
-        errorMessage: ''
+        orders: [],
       };
     },
     async created() {
-      await this.fetchOrderItems();
+      try {
+        const response = await getAPI.get('/customer-orderitems/');
+        this.orders = response.data;
+      } catch (error) {
+        console.error('Erreur lors de la récupération des commandes :', error);
+      }
     },
     methods: {
-      async fetchOrderItems() {
-        try {
-          const response = await getAPI.get('/customer-orderitems/');
-          this.orderItems = response.data;
-        } catch (error) {
-          console.error('Error fetching order items:', error);
-          this.errorMessage = 'Erreur lors de la récupération des commandes';
-        } finally {
-          this.loading = false;
-        }
+      viewOrder(orderId) {
+        this.$router.push({ name: 'CustomerOrderItemDetail', params: { id: orderId } });
       },
       formatDate(date) {
-        return new Date(date).toLocaleString();
-      }
-    }
+        return format(new Date(date), 'dd/MM/yyyy HH:mm');
+      },
+    },
   };
   </script>
   
   <style scoped>
-  /* Ajouter des styles supplémentaires si nécessaire */
+  .list-group-item:hover {
+    background-color: #f0f0f0;
+  }
   </style>
   

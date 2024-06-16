@@ -26,7 +26,13 @@
             <router-link :to="{ name: 'login' }" class="nav-link">Se connecter</router-link>
           </li>
           <li v-if="isLoggedIn" class="nav-item">
-            <router-link :to="{ name: 'CustomerMessageForm' }" class="nav-link">Mes recettes</router-link>
+            <router-link :to="{ name: 'CustomerSentMessages' }" class="nav-link">Messages Envoyés</router-link>
+          </li>
+          <li v-if="isLoggedIn" class="nav-item">
+            <router-link :to="{ name: 'CustomerMessageForm' }" class="nav-link">Messages reçues</router-link>
+          </li>
+          <li v-if="isLoggedIn" class="nav-item">
+            <router-link :to="{ name: 'CustomerOrderItems' }" class="nav-link">Commandes</router-link>
           </li>
           <li v-if="isLoggedIn" class="nav-item">
             <router-link :to="{ name: 'logout' }" class="nav-link">Logout</router-link>

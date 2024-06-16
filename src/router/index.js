@@ -1,40 +1,40 @@
-import { createRouter, createWebHistory } from "vue-router";
-import { store } from "../store";
-import HomeView from "@/views/HomeView.vue";
-import LoginView from "@/views/LoginView.vue";
-import CustomerOrderItems from "@/views/private/CustomerOrderItems.vue";
-import CustomerOrderItemDetail from "@/views/private/CustomerOrderItemDetail.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import { store } from '../store';
+import HomeView from '@/views/HomeView.vue';
+import LoginView from '@/views/LoginView.vue';
+import CustomerOrderItems from '@/views/private/CustomerOrderItems.vue';
+import CustomerOrderItemDetail from '@/views/private/CustomerOrderItemDetail.vue';
+import CustomerSentMessages from '@/views/private/CustomerSentMessages.vue';
 
 const routes = [
-  { path: "/", name: "home", component: HomeView },
-  { path: "/login", name: "login", component: LoginView },
+  { path: '/', name: 'home', component: HomeView },
+  { path: '/login', name: 'login', component: LoginView },
+  { path: '/logout', name: 'logout', component: () => import('@/views/LogoutView.vue') },
   {
-    path: "/logout",
-    name: "logout",
-    component: () => import("@/views/LogoutView.vue"),
-  },
-  {
-    path: "/send-message",
-    name: "CustomerMessageForm",
-    component: () => import("@/views/private/CustomerMessageForm.vue"),
+    path: '/send-message',
+    name: 'CustomerMessageForm',
+    component: () => import('@/views/private/CustomerMessageForm.vue'),
     meta: { requiresAuth: true },
   },
   {
-    path: "/:catchAll(.*)",
-    component: () => import("@/views/NotFoundView.vue"),
-  },
-  {
-    path: "/orderitems",
-    name: "CustomerOrderItems",
+    path: '/orderitems',
+    name: 'CustomerOrderItems',
     component: CustomerOrderItems,
     meta: { requiresAuth: true },
   },
   {
-    path: "/orderitem/:id",
-    name: "CustomerOrderItemDetail",
+    path: '/orderitem/:id',
+    name: 'CustomerOrderItemDetail',
     component: CustomerOrderItemDetail,
     meta: { requiresAuth: true },
   },
+  {
+    path: '/sent-messages',
+    name: 'CustomerSentMessages',
+    component: CustomerSentMessages,
+    meta: { requiresAuth: true },
+  },
+  { path: '/:catchAll(.*)', component: () => import('@/views/NotFoundView.vue') },
 ];
 
 const router = createRouter({
@@ -42,17 +42,15 @@ const router = createRouter({
   routes,
 });
 
-// Guard global pour vérifier les routes nécessitant une authentification
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    // Cette route nécessite une authentification
-    if (store.getters["auth/isLoggedIn"]) {
-      next(); // L'utilisateur est connecté, continuer vers la route
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters['auth/isLoggedIn']) {
+      next();
     } else {
-      next({ name: "login" }); // Rediriger vers la page de connexion
+      next({ name: 'login' });
     }
   } else {
-    next(); // Pas de vérification nécessaire, continuer vers la route
+    next();
   }
 });
 
