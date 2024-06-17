@@ -22,9 +22,11 @@ export default {
 <style scoped>
 .jumbotron {
     background-color: #f8f9fa;
+
     padding: 2rem 1rem;
     margin-bottom: 2rem;
     border-radius: 0.3rem;
+    color: red;
 }
 
 .display-4 {
