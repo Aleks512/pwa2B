@@ -25,7 +25,7 @@
           </li>
           <li v-if="isLoggedIn" class="nav-item">
             <!-- Remplacer le router-link par un bouton -->
-            <button @click="logout" class="nav-link btn btn-link" style="padding: 0; border: none; background: none;">Logout</button>
+            <button @click="logout" class="nav-link btn btn-link mx-auto" style="padding: 0; border: none; background: none;">Logout</button>
           </li>
         </ul>
       </div>
