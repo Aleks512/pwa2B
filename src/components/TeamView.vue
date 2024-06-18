@@ -1,11 +1,11 @@
 <template>
-    <div class="container m-auto" style="min-height: 70vh;">
+    <div class="container m-auto mt-5" style="min-height: 80vh;">
       <h1>Notre équipe est à votre service</h1>
       <div class="team-view d-flex justify-content-around">
         <div v-for="person in team" :key="person.id" class="person-card card pt-4 mt-2" style="width: 300px;">
           <img :src="require(`@/assets/team/${person.photo}`)" alt="Person Photo" class="person-photo card-img-top mx-auto d-block">
           <div class="card-body d-flex flex-column align-items-center">
-            <h3 class="card-title text-center">{{ person.name }}</h3>
+            <h3 class="card-title text-center p-2">{{ person.name }}</h3>
             <h4 class="card-text text-center">{{ person.role }}</h4>
           </div>
         </div>
@@ -21,37 +21,37 @@
         team: [
           {
             id: 1,
-            name: "Aleksa Dupont",
+            name: "Aleksa Aleks",
             role: "Consultante en marketing digital",
             photo: "F_black_business.webp"
           },
           {
             id: 2,
-            name: "Jane Smith",
+            name: "Jane Dupont",
             role: "Consultante en communication",
             photo: "F_white_business.webp"
           },
           {
             id: 3,
-            name: "Bruce Lee",
+            name: "Joe Black",
             role: "Consultant en marketing",
             photo: "H_asia_cook.webp"
           },
           {
             id: 4,
-            name: "Kris Dupont",
+            name: "Klark Kent",
             role: "Chef de projet marketing",
             photo: "h_middleE_decontracté.webp"
           },
           {
             id: 5,
-            name: "Laura Dupont",
+            name: "Sophie Kowalski",
             role: "Chef de produit marketing",
             photo: "F_white_smile.webp"
           },
           {
             id: 6,
-            name: "Laura Craft",
+            name: "Lara Craft",
             role: "Assistante marketing",
             photo: "F_white_smile2.webp"
           },
