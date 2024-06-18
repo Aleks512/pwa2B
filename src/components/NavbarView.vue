@@ -8,10 +8,9 @@
               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
               aria-label="Toggle navigation">
               <i class="fas fa-bars" style="color: #009042"></i>
-
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto"> <!-- Added ms-auto to align right -->
+        <ul class="navbar-nav ms-auto text-center"> <!-- Added text-center to align center on mobile -->
           <li v-if="!isLoggedIn" class="nav-item">
             <router-link :to="{ name: 'login' }" class="nav-link">Se connecter</router-link>
           </li>
