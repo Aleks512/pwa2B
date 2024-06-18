@@ -1,8 +1,8 @@
 <template>
-  <div class="container position-relative mt-5 p-0">
+  <div class="container-fluid">
     <div class="row no-gutters">
       <div class="col-12">
-        <img :src="logo" class="img-fluid w-100" alt="Logo Kitchen" style="height: 100vh; object-fit: cover; filter: brightness(50%);">
+        <img :src="logo" class="img-fluid w-100" alt="vert" style="height: 90vh; object-fit: cover; filter: brightness(80%);">
         <div class="position-absolute top-50 start-50 translate-middle w-100">
           <div class="col-md-6 offset-md-3 bg-white p-5 rounded shadow-lg" style="background: rgba(255, 255, 255, 0.8);">
             <p v-if="incorrectAuth" class="text-danger">Incorrect email or password entered - please try again</p>
@@ -30,7 +30,7 @@ export default {
     return {
       email: '',
       password: '',
-      logo: require('@/assets/images/shop/kendal-hnys.jpg') 
+      logo: require('@/assets/images/shop/paproc.jpg') 
     };
   },
   computed: {
@@ -67,15 +67,10 @@ export default {
   margin: 0;
 }
 
-.img-fluid {
-  filter: brightness(50%);
-}
+
 
 .bg-white {
-  background: rgba(237, 255, 204, 0.8) !important;
+  background: rgba(130, 177, 138, 0.5) !important;
 }
 
-.shadow-lg {
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
-}
 </style>
