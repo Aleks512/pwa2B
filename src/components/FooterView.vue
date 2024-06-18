@@ -1,5 +1,5 @@
 <template>
-  <footer class="py-3 my-4">
+  <footer class="py-3 my-1">
     <p>Copyright &copy; Ventalis 2024</p>
 
   </footer>

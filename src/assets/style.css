@@ -138,13 +138,16 @@ body {
   h1, h2 {
     margin: 0 0 20px 0;
     line-height: 1.2;
-    font-family: 'Lobster', cursive;
+    font-family: 'Montserrat';
   }
   h3 {
     text-align: center;
     font-size: 1.5rem !important;
-    font-family: 'Lobster'!important;
+    font-family: 'Montserrat'!important;
     color:#1AA845 !important;
+  }
+  p{
+    font-family: 'Montserrat'!important;
   }
   
   .btn-custom {
@@ -167,6 +170,6 @@ body {
     min-height: 100vh;
   }
   .nav-item a {
-    color: chartreuse!important;
+    color: primary5-color!important;
   }
   

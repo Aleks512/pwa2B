@@ -7,7 +7,8 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
               aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+              <i class="fas fa-bars" style="color: #009042"></i>
+
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto"> <!-- Added ms-auto to align right -->
@@ -63,20 +64,22 @@ nav {
 }
 a:hover {
   font-weight: bold;
-  color: #009E08;
+  color: #009042;
   text-decoration: none;
   line-height: 1.5rem;
   font-size-adjust: inherit;
+ 
 }
 .navbar-toggler-icon, .navbar-toggler {
-  color: #009E08 !important;
+  color: #009042 !important;
+  border: 1px;
 }
 .btn-link {
   color: inherit;
   text-decoration: none;
 }
 .btn-link:hover {
-  color: #009E08;
+  color: #009042;
   text-decoration: none;
 }
 </style>
