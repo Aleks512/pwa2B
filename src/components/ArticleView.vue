@@ -26,7 +26,7 @@ export default {
     padding: 2rem 1rem;
     margin-bottom: 2rem;
     border-radius: 0.3rem;
-    color: red;
+    color: green;
 }
 
 .display-4 {
