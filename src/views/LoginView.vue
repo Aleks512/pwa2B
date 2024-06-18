@@ -5,7 +5,7 @@
         <img :src="logo" class="img-fluid w-100" alt="vert" style="height: 90vh; object-fit: cover; filter: brightness(80%);">
         <div class="position-absolute top-50 start-50 translate-middle w-100">
           <div class="col-md-6 offset-md-3 bg-white p-5 rounded shadow-lg" style="background: rgba(255, 255, 255, 0.8);">
-            <p v-if="incorrectAuth" class="text-danger">Incorrect email or password entered - please try again</p>
+            <p v-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
             <form @submit.prevent="login" class="form">
               <div class="form-group mb-3">
                 <label for="email">Email</label>
@@ -25,32 +25,31 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
       email: '',
       password: '',
-      logo: require('@/assets/images/shop/paproc.jpg') 
+      logo: require('@/assets/images/shop/paproc.jpg'),
     };
   },
   computed: {
-    // Accès à un getter
-    incorrectAuth() {
-      return this.$store.getters['auth/authError'];
-    }
+    // Accès aux getters
+    ...mapGetters('auth', ['errorMessage']),
   },
   methods: {
-    login() {
-      // Dispatch d'une action
-      this.$store.dispatch('auth/login', {
-        email: this.email,
-        password: this.password
-      }).then(() => {
+    async login() {
+      try {
+        await this.$store.dispatch('auth/login', {
+          email: this.email,
+          password: this.password
+        });
         this.$router.push({ name: 'home' }); // Assurez-vous que le nom de la route est correct.
-      }).catch(error => {
+      } catch (error) {
         console.error("Login failed:", error);
-        
-      });
+      }
     }
   }
 }
@@ -67,10 +66,7 @@ export default {
   margin: 0;
 }
 
-
-
 .bg-white {
   background: rgba(130, 177, 138, 0.5) !important;
 }
-
 </style>
