@@ -9,7 +9,6 @@ import CustomerSentMessages from '@/views/private/CustomerSentMessages.vue';
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/login', name: 'login', component: LoginView },
-  { path: '/logout', name: 'logout', component: () => import('@/views/LogoutView.vue') },
   {
     path: '/send-message',
     name: 'CustomerMessageForm',

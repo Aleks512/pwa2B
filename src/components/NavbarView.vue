@@ -10,17 +10,6 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <router-link :to="{ name: 'home' }" class="nav-link">Accueil</router-link>
-
-          <li class="nav-item">
-            <router-link :to="{ name: 'PublicRecipesList' }" class="nav-link">Recettes</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'posts' }" class="nav-link">Événements</router-link>
-          </li>
-        </ul> -->
         <ul class="navbar-nav ms-auto"> <!-- Added ms-auto to align right -->
           <li v-if="!isLoggedIn" class="nav-item">
             <router-link :to="{ name: 'login' }" class="nav-link">Se connecter</router-link>
@@ -35,7 +24,8 @@
             <router-link :to="{ name: 'CustomerOrderItems' }" class="nav-link">Commandes</router-link>
           </li>
           <li v-if="isLoggedIn" class="nav-item">
-            <router-link :to="{ name: 'logout' }" class="nav-link">Logout</router-link>
+            <!-- Remplacer le router-link par un bouton -->
+            <button @click="logout" class="nav-link btn btn-link" style="padding: 0; border: none; background: none;">Logout</button>
           </li>
         </ul>
       </div>
@@ -43,27 +33,33 @@
   </nav>
 </template>
 
-  <script>
-  import { mapGetters, mapActions } from 'vuex';
-  export default {
-      name: 'NavBar',
-      computed: {
+<script>
+import { mapGetters, mapActions } from 'vuex';
+
+export default {
+  name: 'NavBar',
+  computed: {
     ...mapGetters('auth', ['isLoggedIn']),
   },
   methods: {
     ...mapActions('auth', ['logout']),
+    async logout() {
+      try {
+        await this.$store.dispatch('auth/logout');
+        alert('Vous avez été déconnecté.');
+      } catch (error) {
+        console.error('Logout failed:', error);
+        alert('Échec de la déconnexion, veuillez réessayer.');
+      }
+    }
   },
-      mounted() {
-          // Code to run when the component is mounted goes here
-      },
-      
-  };
-  </script>
-  
-  <style>
-  nav {
-    font-size: 1rem !important;
-    background-color: #000000 !important;
+};
+</script>
+
+<style>
+nav {
+  font-size: 1rem !important;
+  background-color: #000000 !important;
 }
 a:hover {
   font-weight: bold;
@@ -72,9 +68,15 @@ a:hover {
   line-height: 1.5rem;
   font-size-adjust: inherit;
 }
-.navbar-toggler-icon , .navbar-toggler{
+.navbar-toggler-icon, .navbar-toggler {
   color: #009E08 !important;
 }
-
-  </style>
-  
+.btn-link {
+  color: inherit;
+  text-decoration: none;
+}
+.btn-link:hover {
+  color: #009E08;
+  text-decoration: none;
+}
+</style>
