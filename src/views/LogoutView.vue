@@ -1,22 +1,19 @@
 <template>
-    <button @click="logout">Logout</button>
-  </template>
-  
-  <script>
-  export default {
-    methods: {
-      logout() {
-        // Directly call dispatch on the Vuex store
-        this.$store.dispatch('auth/logout')
-          .then(() => {
-            alert('Dommage, vous partez déjà.');
-          })
-          .catch(error => {
-            console.error('Logout failed:', error);
-            alert('Logout failed, please try again.');
-          });
+  <button @click="logout">Logout</button>
+</template>
+
+<script>
+export default {
+  methods: {
+    async logout() {
+      try {
+        await this.$store.dispatch('auth/logout');
+        alert('Vous avez été déconnecté.');
+      } catch (error) {
+        console.error('Logout failed:', error);
+        alert('Échec de la déconnexion, veuillez réessayer.');
       }
     }
   }
-  </script>
-  
+}
+</script>

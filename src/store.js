@@ -1,3 +1,4 @@
+// store.js
 import { createStore } from 'vuex';
 import getAPI from './axios-api';
 import router from '@/router';
@@ -52,14 +53,24 @@ const auth = {
         const response = await getAPI.post('/api/token/', credentials);
         commit('SET_TOKENS', { accessToken: response.data.access, refreshToken: response.data.refresh });
         getAPI.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
+        console.log('Access Token:', response.data.access);
+        console.log('Refresh Token:', response.data.refresh);
       } catch (error) {
         commit('SET_AUTH_ERROR', 'Login failed');
         throw error;
       }
     },
-    logout({ commit }) {
-      commit('CLEAR_TOKENS');
-      router.push({ name: 'login' });
+    async logout({ commit, state }) {
+      try {
+        console.log('Logging out with Refresh Token:', state.refreshToken);
+        await getAPI.post('/api/logout/', { refresh: state.refreshToken });
+        console.log('Refresh Token blacklisted:', state.refreshToken);
+      } catch (error) {
+        console.error('Logout failed:', error);
+      } finally {
+        commit('CLEAR_TOKENS');
+        router.push({ name: 'login' });
+      }
     },
     async refreshToken({ commit, state }) {
       if (!state.refreshToken || Date.now() >= state.refreshTokenExpiresAt) {
