@@ -11,10 +11,12 @@ const auth = {
     accessTokenExpiresAt: parseInt(sessionStorage.getItem('accessTokenExpiresAt'), 10) || null,
     refreshTokenExpiresAt: parseInt(sessionStorage.getItem('refreshTokenExpiresAt'), 10) || null,
     authError: null,
+    errorMessage: null,
   },
   getters: {
     isLoggedIn: (state) => !!state.accessToken && Date.now() < state.accessTokenExpiresAt,
     authError: (state) => state.authError,
+    errorMessage: (state) => state.errorMessage,
   },
   mutations: {
     SET_TOKENS(state, { accessToken, refreshToken }) {
@@ -31,6 +33,7 @@ const auth = {
       state.accessTokenExpiresAt = accessTokenExpiresAt;
       state.refreshTokenExpiresAt = refreshTokenExpiresAt;
       state.authError = null;
+      state.errorMessage = null;
     },
     CLEAR_TOKENS(state) {
       state.accessToken = null;
@@ -42,9 +45,13 @@ const auth = {
       sessionStorage.removeItem('accessTokenExpiresAt');
       sessionStorage.removeItem('refreshTokenExpiresAt');
       delete getAPI.defaults.headers.common['Authorization'];
+      state.errorMessage = null;
     },
     SET_AUTH_ERROR(state, error) {
       state.authError = error;
+    },
+    SET_ERROR_MESSAGE(state, message) {
+      state.errorMessage = message;
     },
   },
   actions: {
@@ -53,18 +60,19 @@ const auth = {
         const response = await getAPI.post('/api/token/', credentials);
         commit('SET_TOKENS', { accessToken: response.data.access, refreshToken: response.data.refresh });
         getAPI.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
-        console.log('Access Token:', response.data.access);
-        console.log('Refresh Token:', response.data.refresh);
       } catch (error) {
         commit('SET_AUTH_ERROR', 'Login failed');
+        if (error.response && error.response.data && error.response.data.detail) {
+          commit('SET_ERROR_MESSAGE', error.response.data.detail);
+        } else {
+          commit('SET_ERROR_MESSAGE', 'An error occurred during login');
+        }
         throw error;
       }
     },
     async logout({ commit, state }) {
       try {
-        console.log('Logging out with Refresh Token:', state.refreshToken);
         await getAPI.post('/api/logout/', { refresh: state.refreshToken });
-        console.log('Refresh Token blacklisted:', state.refreshToken);
       } catch (error) {
         console.error('Logout failed:', error);
       } finally {
