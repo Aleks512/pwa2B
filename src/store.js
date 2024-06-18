@@ -62,7 +62,9 @@ const auth = {
         getAPI.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
       } catch (error) {
         commit('SET_AUTH_ERROR', 'Login failed');
-        if (error.response && error.response.data && error.response.data.detail) {
+        if (error.response && error.response.status === 403) {
+          commit('SET_ERROR_MESSAGE', "Vous n'avez pas la permission d'effectuer cette action.");
+        } else if (error.response && error.response.data && error.response.data.detail) {
           commit('SET_ERROR_MESSAGE', error.response.data.detail);
         } else {
           commit('SET_ERROR_MESSAGE', 'An error occurred during login');

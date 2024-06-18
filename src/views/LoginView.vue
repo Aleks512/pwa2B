@@ -2,7 +2,8 @@
   <div class="container-fluid">
     <div class="row no-gutters">
       <div class="col-12">
-        <img :src="logo" class="img-fluid w-100" alt="vert" style="height: 90vh; object-fit: cover; filter: brightness(80%);">
+        <img :src="logo" class="img-fluid w-100" alt="vert" style="height:
+  90vh; object-fit: cover; filter: brightness(80%);">
         <div class="position-absolute top-50 start-50 translate-middle w-100">
           <div class="col-md-6 offset-md-3 bg-white p-5 rounded shadow-lg" style="background: rgba(255, 255, 255, 0.8);">
             <p v-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
@@ -56,7 +57,7 @@ export default {
 </script>
 
 <style scoped>
-/* Ajoutez ici des styles spécifiques à ce composant */
+
 .container-fluid {
   padding: 0;
   margin: 0;
