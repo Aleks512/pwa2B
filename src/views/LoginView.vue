@@ -47,7 +47,7 @@ export default {
           email: this.email,
           password: this.password
         });
-        this.$router.push({ name: 'home' }); // Assurez-vous que le nom de la route est correct.
+        this.$router.push({ name: 'CustomerMessageForm' }); 
       } catch (error) {
         console.error("Login failed:", error);
       }
