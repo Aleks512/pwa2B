@@ -27,9 +27,8 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
-// Routine pour vérifier le refresh token toutes les 23 heures et 30 minutes
 const refreshTokenRoutine = () => {
-  const refreshTokenInterval = 23.5 * 60 * 60 * 1000; // 23 heures et 30 minutes
+  const refreshTokenInterval = 25 * 60 * 1000; 
   setInterval(async () => {
     const refreshToken = sessionStorage.getItem('refreshToken');
     const refreshTokenExpiresAt = parseInt(sessionStorage.getItem('refreshTokenExpiresAt'), 10);
@@ -67,7 +66,7 @@ getAPI.interceptors.request.use(async function (config) {
     console.log(`Current time: ${new Date(now)}`);
 
     // Vérifie si le token expire dans les 5 prochaines minutes
-    if (now >= accessTokenExpiresAt - (5 * 60 * 1000)) {
+    if (now >= accessTokenExpiresAt - (60 * 1000)) {
       console.log('Token is about to expire or has expired. Attempting to refresh.');
 
       if (!isRefreshing) {
