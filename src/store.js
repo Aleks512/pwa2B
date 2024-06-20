@@ -2,6 +2,8 @@ import { createStore } from 'vuex';
 import getAPI from './axios-api';
 import router from '@/router';
 
+
+
 // Module d'autentification
 const auth = {
   // namespaced: true permet de définir un espace de nom pour ce module et de l'utiliser dans les getters, mutations et actions
@@ -10,6 +12,7 @@ const auth = {
   state: {
     accessToken: sessionStorage.getItem('accessToken') || null,
     refreshToken: sessionStorage.getItem('refreshToken') || null,
+    // parseInt permet de convertir une chaîne de caractères en nombre entier (base 10)
     accessTokenExpiresAt: parseInt(sessionStorage.getItem('accessTokenExpiresAt'), 10) || null,
     refreshTokenExpiresAt: parseInt(sessionStorage.getItem('refreshTokenExpiresAt'), 10) || null,
     authError: null,
@@ -40,6 +43,10 @@ const auth = {
       state.refreshTokenExpiresAt = refreshTokenExpiresAt;
       state.authError = null;
       state.errorMessage = null;
+
+      console.log('Tokens set successfully');
+      console.log(`Access Token Expires At: ${new Date(accessTokenExpiresAt)}`);
+      console.log(`Refresh Token Expires At: ${new Date(refreshTokenExpiresAt)}`);
     },
     CLEAR_TOKENS(state) {
       state.accessToken = null;
@@ -52,6 +59,8 @@ const auth = {
       sessionStorage.removeItem('refreshTokenExpiresAt');
       delete getAPI.defaults.headers.common['Authorization'];
       state.errorMessage = null;
+
+      console.log('Tokens cleared successfully');
     },
     SET_AUTH_ERROR(state, error) {
       state.authError = error;
@@ -108,11 +117,7 @@ const auth = {
   }
 };
 
-// Affichage des valeurs de state pour le débogage
-console.log('accessToken', sessionStorage.getItem('accessToken'));
-console.log('refreshToken', sessionStorage.getItem('refreshToken'));
-console.log('accessTokenExpiresAt', parseInt(sessionStorage.getItem('accessTokenExpiresAt'), 10));
-console.log('refreshTokenExpiresAt', parseInt(sessionStorage.getItem('refreshTokenExpiresAt'), 10));
+
 
 // createStore permet de créer un store Vuex
 export const store = createStore({
