@@ -1,10 +1,12 @@
-// store.js
 import { createStore } from 'vuex';
 import getAPI from './axios-api';
 import router from '@/router';
 
+// Module d'autentification
 const auth = {
+  // namespaced: true permet de définir un espace de nom pour ce module et de l'utiliser dans les getters, mutations et actions
   namespaced: true,
+  // state contient les données intitales de l'application qui peuvent être modifiées par les mutations et les actions du store
   state: {
     accessToken: sessionStorage.getItem('accessToken') || null,
     refreshToken: sessionStorage.getItem('refreshToken') || null,
@@ -13,21 +15,25 @@ const auth = {
     authError: null,
     errorMessage: null,
   },
+  // getters permettent d'accéder aux données du state
   getters: {
-    isLoggedIn: (state) => !!state.accessToken && Date.now() < state.accessTokenExpiresAt,
-    authError: (state) => state.authError,
-    errorMessage: (state) => state.errorMessage,
+    // isLoggedIn retourne true si l'utilisateur est connecté et que le token n'a pas expiré (la date actuelle est inférieure à la date d'expiration du token)
+    isLoggedIn: (state) => !!state.accessToken && Date.now() < state.accessTokenExpiresAt, // !! convertit la valeur en booléen
+    authError: (state) => state.authError, // retourne l'erreur d'authentification  si elle existe  
+    errorMessage: (state) => state.errorMessage, // retourne le message d'erreur si il existe
   },
+  // mutations permettent de modifier les données du state de manière synchrone
   mutations: {
     SET_TOKENS(state, { accessToken, refreshToken }) {
+     // Date.now() retourne le nombre de millisecondes écoulées depuis le 1er janvier 1970
       const accessTokenExpiresAt = Date.now() + 30 * 60 * 1000; // 30 minutes
       const refreshTokenExpiresAt = Date.now() + 24 * 60 * 60 * 1000; // 1 day
-
+    // sessionStorage permet de stocker les tokens dans le navigateur pour les conserver après un rafraîchissement de la page
       sessionStorage.setItem('accessToken', accessToken);
       sessionStorage.setItem('refreshToken', refreshToken);
       sessionStorage.setItem('accessTokenExpiresAt', accessTokenExpiresAt);
       sessionStorage.setItem('refreshTokenExpiresAt', refreshTokenExpiresAt);
-
+    // getAPI.defaults.headers.common['Authorization'] permet d'ajouter le token d'authentification aux en-têtes de toutes les requêtes
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
       state.accessTokenExpiresAt = accessTokenExpiresAt;
@@ -54,6 +60,7 @@ const auth = {
       state.errorMessage = message;
     },
   },
+  // actions permettent de modifier les données du state de manière asynchrone
   actions: {
     async login({ commit }, credentials) {
       try {
@@ -101,6 +108,13 @@ const auth = {
   }
 };
 
+// Affichage des valeurs de state pour le débogage
+console.log('accessToken', sessionStorage.getItem('accessToken'));
+console.log('refreshToken', sessionStorage.getItem('refreshToken'));
+console.log('accessTokenExpiresAt', parseInt(sessionStorage.getItem('accessTokenExpiresAt'), 10));
+console.log('refreshTokenExpiresAt', parseInt(sessionStorage.getItem('refreshTokenExpiresAt'), 10));
+
+// createStore permet de créer un store Vuex
 export const store = createStore({
   modules: {
     auth,

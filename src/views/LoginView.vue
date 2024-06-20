@@ -43,6 +43,7 @@ export default {
   methods: {
     async login() {
       try {
+        // Appel de l'action login avec les données du formulaire
         await this.$store.dispatch('auth/login', {
           email: this.email,
           password: this.password

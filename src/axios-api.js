@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { store } from './store';
 
+// Création d'une instance d'axios pour les requêtes API
 const getAPI = axios.create({
   baseURL: process.env.VUE_APP_API_URL || 'http://127.0.0.1:8000',
   timeout: 5000,
