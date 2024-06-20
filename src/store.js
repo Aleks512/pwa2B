@@ -1,42 +1,31 @@
 import { createStore } from 'vuex';
 import getAPI from './axios-api';
-import router from '@/router';
+import router from '@/router';  // Ajouté
 
-
-
-// Module d'autentification
+// Module d'authentification
 const auth = {
-  // namespaced: true permet de définir un espace de nom pour ce module et de l'utiliser dans les getters, mutations et actions
-  namespaced: true,
-  // state contient les données intitales de l'application qui peuvent être modifiées par les mutations et les actions du store
+  namespaced: true,  // permet de définir un espace de nom pour ce module et de l'utiliser dans les getters, mutations et actions
   state: {
     accessToken: sessionStorage.getItem('accessToken') || null,
     refreshToken: sessionStorage.getItem('refreshToken') || null,
-    // parseInt permet de convertir une chaîne de caractères en nombre entier (base 10)
     accessTokenExpiresAt: parseInt(sessionStorage.getItem('accessTokenExpiresAt'), 10) || null,
     refreshTokenExpiresAt: parseInt(sessionStorage.getItem('refreshTokenExpiresAt'), 10) || null,
     authError: null,
     errorMessage: null,
   },
-  // getters permettent d'accéder aux données du state
   getters: {
-    // isLoggedIn retourne true si l'utilisateur est connecté et que le token n'a pas expiré (la date actuelle est inférieure à la date d'expiration du token)
-    isLoggedIn: (state) => !!state.accessToken && Date.now() < state.accessTokenExpiresAt, // !! convertit la valeur en booléen
-    authError: (state) => state.authError, // retourne l'erreur d'authentification  si elle existe  
-    errorMessage: (state) => state.errorMessage, // retourne le message d'erreur si il existe
+    isLoggedIn: (state) => !!state.accessToken && Date.now() < state.accessTokenExpiresAt,  // retourne true si l'utilisateur est connecté et que le token n'a pas expiré
+    authError: (state) => state.authError,  // retourne l'erreur d'authentification si elle existe  
+    errorMessage: (state) => state.errorMessage,  // retourne le message d'erreur s'il existe
   },
-  // mutations permettent de modifier les données du state de manière synchrone
   mutations: {
     SET_TOKENS(state, { accessToken, refreshToken }) {
-     // Date.now() retourne le nombre de millisecondes écoulées depuis le 1er janvier 1970
-      const accessTokenExpiresAt = Date.now() + 30 * 60 * 1000; // 30 minutes
-      const refreshTokenExpiresAt = Date.now() + 24 * 60 * 60 * 1000; // 1 day
-    // sessionStorage permet de stocker les tokens dans le navigateur pour les conserver après un rafraîchissement de la page
+      const accessTokenExpiresAt = Date.now() + 30 * 60 * 1000;  // 30 minutes
+      const refreshTokenExpiresAt = Date.now() + 24 * 60 * 60 * 1000;  // 1 day
       sessionStorage.setItem('accessToken', accessToken);
       sessionStorage.setItem('refreshToken', refreshToken);
       sessionStorage.setItem('accessTokenExpiresAt', accessTokenExpiresAt);
       sessionStorage.setItem('refreshTokenExpiresAt', refreshTokenExpiresAt);
-    // getAPI.defaults.headers.common['Authorization'] permet d'ajouter le token d'authentification aux en-têtes de toutes les requêtes
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
       state.accessTokenExpiresAt = accessTokenExpiresAt;
@@ -69,7 +58,6 @@ const auth = {
       state.errorMessage = message;
     },
   },
-  // actions permettent de modifier les données du state de manière asynchrone
   actions: {
     async login({ commit }, credentials) {
       try {
@@ -95,13 +83,13 @@ const auth = {
         console.error('Logout failed:', error);
       } finally {
         commit('CLEAR_TOKENS');
-        router.push({ name: 'login' });
+        router.push({ name: 'login' });  // Ajouté
       }
     },
     async refreshToken({ commit, state }) {
       if (!state.refreshToken || Date.now() >= state.refreshTokenExpiresAt) {
         commit('CLEAR_TOKENS');
-        router.push({ name: 'login' });
+        router.push({ name: 'login' });  // Ajouté
         throw new Error('Refresh token expired or not available.');
       }
       try {
@@ -110,14 +98,12 @@ const auth = {
         return response.data.access;
       } catch (error) {
         commit('CLEAR_TOKENS');
-        router.push({ name: 'login' });
+        router.push({ name: 'login' });  // Ajouté
         throw error;
       }
     }
   }
 };
-
-
 
 // createStore permet de créer un store Vuex
 export const store = createStore({
